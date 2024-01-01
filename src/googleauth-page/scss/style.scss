@@ -1,0 +1,30 @@
+// Overwrite font path.
+$sui-font-path: '~@wpmudev/shared-ui/dist/fonts/';
+$sui-image-path: '~@wpmudev/shared-ui/dist/images/';
+
+// Share UI styles
+@import "@wpmudev/shared-ui";
+
+.sui-box-body {
+    .components-base-control {
+        min-width: 100%;
+
+        input[type="text"] {
+            min-width: 100%;
+        }
+		input[type="password"] {
+			min-width: 100%;
+		}
+
+        label {
+            display:block;
+        }
+    }
+	.wpmu-alert-box{
+		border: 1px solid #000000 !important;
+		border-radius: 5px;
+		padding-left: 5px;
+		color: #ffffff;
+		font-weight: bold;
+	}
+}
