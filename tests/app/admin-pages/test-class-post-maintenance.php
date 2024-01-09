@@ -6,10 +6,23 @@
  * @package Wpmudev_Plugin_Test
  */
 
+ use WPMUDEV\PluginTest\App\Admin_Pages\Post_Maintenance;
+
 /**
 * Post_Maintenance test case.
 */
 class Post_MaintenanceTest extends WP_UnitTestCase {
+
+	/**
+	* Test hooks init
+	*/
+	public function test_init() {
+		$post_maintenance = Post_Maintenance::instance();
+		$cron_schedules   = has_action( 'daily_posts_maintenance', array( $post_maintenance, 'schedule_scan_and_update' ) );
+		$scan_and_update  = has_action( 'post_maintenance_update', array( $post_maintenance, 'post_maintenance_update' ) );
+
+		$this->assertTrue( 10 === $cron_schedules && 10 === $scan_and_update );
+	}
 
 	/**
 	* A schedule_scan_and_update test.
@@ -43,5 +56,16 @@ class Post_MaintenanceTest extends WP_UnitTestCase {
 			}
 		}
 
+	}
+
+	/**
+	 * Test cron is scheduled
+	 */
+	public function test_schedule_update() {
+		$post_maintenance = Post_Maintenance::instance();
+		$post_maintenance->schedule_update();
+		$next_scheduled = wp_next_scheduled( 'daily_posts_maintenance' );
+
+		$this->assertTrue( false !== $next_scheduled );
 	}
 }
